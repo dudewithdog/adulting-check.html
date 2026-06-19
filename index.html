@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light only">
-<title>Erwachsen bist du schon. Und mündig?</title>
+<meta name="color-scheme" content="light">
+<title>Wie reif bist du fürs Erwachsensein?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Spectral:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --paper:#EAE0D2;
@@ -19,163 +19,343 @@
     --hit:rgba(156,107,56,0.10);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{-webkit-text-size-adjust:100%;color-scheme:light only;background:#EAE0D2}
+  html{-webkit-text-size-adjust:100%}
   body{
-    background:#EAE0D2;
-    background-image:radial-gradient(125% 85% at 50% 0%, #EFE7DA 0%, #EAE0D2 55%, #E3D8C7 100%);
-    color:#262320;
-    font-family:'Jost',-apple-system,system-ui,sans-serif;
-    font-weight:400;line-height:1.7;font-size:17.5px;
-    -webkit-font-smoothing:antialiased;
-    min-height:100vh;display:flex;flex-direction:column;
+    background:var(--paper);
+    background-image:radial-gradient(circle at 18% 12%, rgba(156,107,56,0.06), transparent 60%);
+    color:var(--ink);
+    font-family:'Spectral',Georgia,serif;
+    line-height:1.55;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+    padding:clamp(20px,5vw,40px);
   }
-  .sheet{
-    position:relative;width:100%;max-width:600px;
-    margin:0 auto;flex:1;
-    padding:56px 30px 64px;
-    display:flex;flex-direction:column;
-  }
-  .tick{position:absolute;width:18px;height:18px}
-  .tick::before,.tick::after{content:"";position:absolute;background:var(--ink);opacity:0.5}
-  .tick::before{width:18px;height:1px;top:0}
-  .tick::after{height:18px;width:1px;left:0}
-  .tl{top:26px;left:24px}
-  .tr{top:26px;right:24px}.tr::before{right:0;left:auto}.tr::after{right:0;left:auto}
-  .bl{bottom:30px;left:24px}.bl::before{bottom:0;top:auto}.bl::after{bottom:0;top:auto}
-  .br{bottom:30px;right:24px}.br::before{bottom:0;top:auto;right:0;left:auto}.br::after{bottom:0;top:auto;right:0;left:auto}
+  .wrap{width:100%;max-width:600px;margin:0 auto;flex:1;display:flex;flex-direction:column}
 
-  .eyebrow{font-size:11.5px;letter-spacing:0.32em;text-transform:uppercase;color:var(--ink-soft);font-weight:500}
-  h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:clamp(38px,10.5vw,54px);line-height:1.05;margin:14px 0 20px}
-  .lead{font-size:18px;color:var(--ink);max-width:32em}
+  .top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding-bottom:14px;border-bottom:1px solid var(--line-soft)}
+  .eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--bronze);font-weight:600}
+  .count{font-size:.8rem;letter-spacing:.08em;color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .bar{height:2px;background:var(--line-soft);margin-top:14px;position:relative;overflow:hidden}
+  .bar > span{position:absolute;inset:0 auto 0 0;width:0%;background:var(--bronze);transition:width .35s cubic-bezier(.4,0,.2,1)}
 
-  .screen{display:none;flex:1;flex-direction:column}
-  .screen.active{display:flex;animation:rise .5s cubic-bezier(.2,.7,.2,1)}
+  .stage{flex:1;display:flex;flex-direction:column;justify-content:center;padding:clamp(26px,6vw,52px) 0}
+  .panel{animation:rise .4s cubic-bezier(.2,.7,.2,1)}
   @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
-  .btn{
-    font-family:'Jost',sans-serif;font-size:16.5px;font-weight:500;
-    color:var(--ink);background:transparent;
-    border:1px solid var(--line);border-radius:2px;
-    padding:17px 20px;width:100%;text-align:left;cursor:pointer;
-    transition:background .18s ease,border-color .18s ease,transform .08s ease;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .btn:hover{background:var(--hit);border-color:var(--bronze)}
-  .btn:active{transform:scale(.99)}
-  .btn:focus-visible{outline:2px solid var(--bronze);outline-offset:3px}
+  .num{font-family:'Fraunces',serif;font-size:clamp(2.6rem,14vw,4rem);font-weight:400;color:var(--bronze);line-height:.8;opacity:.55;margin-bottom:18px;font-variant-numeric:tabular-nums}
+  h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(1.9rem,8vw,2.9rem);line-height:1.07;letter-spacing:-.01em;margin-bottom:16px}
+  .lead{font-size:clamp(1.02rem,4vw,1.15rem);color:var(--ink-soft);margin-bottom:26px;max-width:46ch}
+  .statement{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(1.5rem,6.2vw,2.05rem);line-height:1.2;letter-spacing:-.005em;margin-bottom:28px}
 
-  .start{margin-top:auto;align-self:flex-start;width:auto;padding-left:30px;padding-right:30px;border-color:var(--bronze);color:var(--ink)}
-  .start:hover{background:var(--bronze);color:var(--paper)}
+  .dims{list-style:none;margin:0 0 26px;border-top:1px solid var(--line-soft)}
+  .dims li{padding:11px 2px;border-bottom:1px solid var(--line-soft);display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+  .dims .term{font-family:'Fraunces',serif;font-weight:500;color:var(--ink);font-size:1.06rem}
+  .dims .def{color:var(--ink-soft);font-size:.92rem}
+  .frame{font-size:1.02rem;color:var(--ink);margin:0 0 30px;padding:14px 16px;border-left:2px solid var(--bronze);background:var(--hit)}
+  .frame b{font-weight:600}
 
-  /* Quiz */
-  .progress{display:flex;align-items:center;gap:14px;margin-bottom:auto}
-  .pcount{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:var(--bronze);white-space:nowrap}
-  .pbar{flex:1;height:1px;background:var(--line-soft);position:relative}
-  .pbar span{position:absolute;left:0;top:0;height:1px;background:var(--bronze);transition:width .4s ease}
-  .question{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(26px,7vw,34px);line-height:1.22;margin:34px 0 28px;max-width:16em}
-  .answers{display:flex;flex-direction:column;gap:12px;margin-bottom:auto}
+  .scale{display:flex;flex-direction:column;gap:10px}
+  .opt{appearance:none;-webkit-appearance:none;width:100%;text-align:left;background:transparent;border:1px solid var(--line);color:var(--ink);font-family:inherit;font-size:1.05rem;padding:15px 18px;cursor:pointer;display:flex;align-items:center;gap:14px;transition:background .18s,border-color .18s,transform .1s}
+  .opt:hover{background:var(--hit)}
+  .opt:active{transform:scale(.995)}
+  .opt .dot{width:15px;height:15px;border:1px solid var(--line);border-radius:50%;flex:none;transition:background .18s,border-color .18s}
+  .opt[aria-pressed="true"]{border-color:var(--bronze);background:var(--hit)}
+  .opt[aria-pressed="true"] .dot{background:var(--bronze);border-color:var(--bronze);box-shadow:inset 0 0 0 2px var(--paper)}
+  .opt:focus-visible{outline:2px solid var(--bronze);outline-offset:2px}
 
-  /* Result */
-  .verdict{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:500;font-size:clamp(24px,6.5vw,30px);line-height:1.32;margin:14px 0 20px;max-width:20em}
-  .rbody{color:var(--ink);max-width:32em;margin-bottom:28px}
-  .again{align-self:flex-start;width:auto;padding-left:26px;padding-right:26px}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-top:18px;border-top:1px solid var(--line-soft)}
+  .btn{appearance:none;-webkit-appearance:none;font-family:inherit;font-size:1rem;cursor:pointer;border:1px solid transparent;padding:12px 24px;background:transparent;color:var(--ink);transition:background .18s,opacity .18s,border-color .18s}
+  .btn:focus-visible{outline:2px solid var(--bronze);outline-offset:2px}
+  .btn-back{color:var(--ink-soft);padding-left:0}
+  .btn-back:hover{color:var(--ink)}
+  .btn-back[hidden]{visibility:hidden}
+  .btn-next{background:var(--bronze);color:var(--paper);letter-spacing:.02em}
+  .btn-next:hover{background:#85592e}
+  .btn-next:disabled{opacity:.35;cursor:not-allowed}
+  .btn-ghost{border-color:var(--line);color:var(--ink)}
+  .btn-ghost:hover{background:var(--hit)}
+  .hint{font-size:.82rem;color:var(--ink-soft);margin-top:14px;font-style:italic}
 
-  footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-soft)}
+  .verdict{font-family:'Fraunces',serif;font-size:clamp(1.7rem,6.5vw,2.2rem);font-weight:500;line-height:1.12;margin:0 0 6px}
+  .result-text{font-size:1.08rem;color:var(--ink);margin:14px 0 24px;max-width:48ch}
+  .facets{display:flex;flex-direction:column;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);margin-bottom:26px}
+  .facet{background:var(--paper);padding:14px 16px;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .facet .k{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--bronze);font-weight:600}
+  .facet .v{font-family:'Fraunces',serif;font-size:1.1rem}
+  .closing{font-style:italic;color:var(--ink-soft);font-size:1rem;margin-bottom:28px;max-width:48ch}
 
-  @media (max-width:420px){.sheet{padding:46px 22px 54px}}
-  @media (prefers-reduced-motion:reduce){.screen.active{animation:none}.btn,.pbar span{transition:none}}
+  .radar-wrap{margin:6px 0 26px;display:flex;justify-content:center}
+  .radar{width:100%;max-width:420px;height:auto;overflow:visible}
+  .radar .grid{fill:none;stroke:var(--line-soft);stroke-width:1}
+  .radar .spoke{stroke:var(--line-soft);stroke-width:1}
+  .radar .profile{fill:rgba(156,107,56,0.16);stroke:var(--bronze);stroke-width:1.6;stroke-linejoin:round}
+  .radar .vertex{fill:var(--bronze)}
+  .radar .axislabel{fill:var(--ink-soft);font-family:'Spectral',serif;font-size:8.7px;letter-spacing:.01em}
+
+  @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
 </style>
 </head>
 <body>
-  <main class="sheet">
-    <span class="tick tl"></span><span class="tick tr"></span>
-    <span class="tick bl"></span><span class="tick br"></span>
-
-    <!-- Intro -->
-    <section id="intro" class="screen active">
-      <p class="eyebrow">Ganz normales Alltagswissen</p>
-      <h1>Erwachsen bist du<br>schon. Und mündig?</h1>
-      <p class="lead">Fünf ehrliche Fragen. Keine Noten, keine Falle. Nur ein kurzer Blick darauf, wo du im Alltag schon sicher stehst und wo dir dieses Heft den Rücken freihält.</p>
-      <button class="btn start" id="startBtn">Check starten</button>
-    </section>
-
-    <!-- Quiz -->
-    <section id="quiz" class="screen">
-      <div class="progress">
-        <span class="pcount" id="pcount">01 / 05</span>
-        <span class="pbar"><span id="pfill" style="width:20%"></span></span>
-      </div>
-      <h2 class="question" id="qtext"></h2>
-      <div class="answers">
-        <button class="btn" data-v="2">Hab ich im Griff</button>
-        <button class="btn" data-v="1">So halb</button>
-        <button class="btn" data-v="0">Ehrlich, nein</button>
-      </div>
-    </section>
-
-    <!-- Result -->
-    <section id="result" class="screen">
-      <p class="eyebrow">Dein Ergebnis</p>
-      <p class="verdict" id="verdict"></p>
-      <p class="rbody" id="rbody"></p>
-      <button class="btn again" id="againBtn">Nochmal</button>
-    </section>
-
-    <footer>
-      <span>DudeWithDog&nbsp;Education</span>
-      <span>Adulting-Check</span>
-    </footer>
-  </main>
+<div class="wrap">
+  <header class="top">
+    <span class="eyebrow">Ganz normales Alltagswissen</span>
+    <span class="count" id="count"></span>
+  </header>
+  <div class="bar"><span id="fill"></span></div>
+  <main class="stage" id="stage" aria-live="polite"></main>
+</div>
 
 <script>
-  const questions = [
-    "Weisst du am Monatsende, wohin dein Geld geflossen ist?",
-    "Könntest du in einem Satz sagen, wofür du jede deiner Versicherungen zahlst?",
-    "Wenn ein Amt morgen ein Dokument will, findest du es ohne Panik?",
-    "Liest du Verträge, bevor du unterschreibst?",
-    "Wenn etwas schiefgeht, eine Frist, ein Schaden, eine Rechnung, weisst du, wo du anfängst?"
-  ];
-  const results = [
-    { min:8, v:"Du stehst sicherer da als die meisten.",
-      b:"Erwachsen wird man von allein, mündig nicht, und du hast dir davon schon einiges erarbeitet. Das Heft schliesst die letzten Lücken und gibt dir die Sicherheit, dass du nichts übersiehst." },
-    { min:4, v:"Ein solides Fundament, mit ein paar offenen Stellen.",
-      b:"Das ist völlig normal, dir hat es ja auch niemand beigebracht. Genau diese Lücken nimmt sich das Heft vor, ruhig und der Reihe nach, in deinem Tempo." },
-    { min:0, v:"Ehrlich beantwortet, und das zählt mehr, als es jetzt scheint.",
-      b:"Niemand kommt fertig auf die Welt, und niemand hat dir das je gezeigt. Das Heft fängt genau hier an und nimmt dich Schritt für Schritt mit. Du musst nur anfangen." }
+(function(){
+  "use strict";
+
+  var SCALE = [
+    {v:1, label:"Trifft nicht zu"},
+    {v:2, label:"Eher nicht"},
+    {v:3, label:"Eher schon"},
+    {v:4, label:"Trifft voll zu"}
   ];
 
-  const elIntro=document.getElementById('intro');
-  const elQuiz=document.getElementById('quiz');
-  const elResult=document.getElementById('result');
-  const qtext=document.getElementById('qtext');
-  const pcount=document.getElementById('pcount');
-  const pfill=document.getElementById('pfill');
-  let idx=0, score=0;
+  var DIMS = [
+    {key:"Selbstständig",      def:"eigenständig handeln"},
+    {key:"Eigenverantwortlich",def:"die Folgen des eigenen Handelns tragen"},
+    {key:"Urteilsfähig",       def:"Situationen vernünftig einschätzen"},
+    {key:"Reif",               def:"geistig und emotional erwachsen"},
+    {key:"Unabhängig",         def:"frei von fremder Bestimmung"}
+  ];
 
-  function show(el){[elIntro,elQuiz,elResult].forEach(s=>s.classList.remove('active'));el.classList.add('active')}
+  var RADAR_ORDER = [1, 3, 2, 0, 4];
+
+  var ITEMS = [
+    {dim:0, text:"Ich kümmere mich um meine Sachen selbst, ohne dass mich jemand antreiben muss."},
+    {dim:0, text:"Was ich erledigen muss, schiebe ich nicht ewig vor mir her."},
+    {dim:1, text:"Wenn ich einen Fehler mache, stehe ich dazu, statt die Schuld bei anderen zu suchen."},
+    {dim:1, text:"Mit den Folgen meiner Entscheidungen kann ich leben, auch wenn sie unbequem sind."},
+    {dim:2, text:"Ich kann mich entscheiden, auch wenn ich nicht alles sicher weiss."},
+    {dim:2, text:"Bevor ich handle, überlege ich, was es für Folgen haben könnte."},
+    {dim:3, text:"Wenn mich etwas stört, spreche ich es ruhig an, statt es in mich hineinzufressen."},
+    {dim:3, text:"Kritik kann ich annehmen, ohne sofort zuzumachen."},
+    {dim:4, text:"Ich bilde mir meine eigene Meinung, statt einfach zu übernehmen, was andere sagen."},
+    {dim:4, text:"Ich kann Nein sagen, auch wenn jemand davon enttäuscht ist."}
+  ];
+
+  var BANDS = [
+    {min:33, verdict:"Vieles ist schon da.",
+     text:"In den meisten Bereichen handelst du selbstständig und trägst die Folgen. Reif fürs Erwachsensein bist du nicht, weil du bald 18 wirst, sondern weil du so handelst. Halt das, gerade wenn es schwierig wird."},
+    {min:23, verdict:"Du bist auf gutem Weg.",
+     text:"In vielem stehst du schon auf eigenen Beinen. An ein paar Stellen lässt du dich noch treiben oder weichst aus. Genau dort lohnt sich das Üben am meisten."},
+    {min:10, verdict:"Vieles liegt noch vor dir.",
+     text:"Das ist kein Makel, sondern dein Stand heute. Du bist mitten im Werden. Volljährig wirst du von allein, der Rest wächst mit jeder Situation, in der du selbst entscheidest."}
+  ];
+
+  var state = { screen:"intro", index:0, answers: ITEMS.map(function(){return null;}) };
+
+  var stage = document.getElementById("stage");
+  var countEl = document.getElementById("count");
+  var fillEl = document.getElementById("fill");
+
+  function pad(n){ return n < 10 ? "0"+n : ""+n; }
+
+  function setProgress(){
+    if(state.screen === "intro"){ countEl.textContent = "Selbst-Check"; fillEl.style.width = "0%"; }
+    else if(state.screen === "quiz"){
+      var n = state.index + 1;
+      countEl.textContent = pad(n) + " / " + pad(ITEMS.length);
+      fillEl.style.width = (n / ITEMS.length * 100) + "%";
+    } else { countEl.textContent = "Auswertung"; fillEl.style.width = "100%"; }
+  }
+
+  function el(tag, cls, html){
+    var e = document.createElement(tag);
+    if(cls) e.className = cls;
+    if(html != null) e.innerHTML = html;
+    return e;
+  }
+
+  function dimAverages(){
+    var sums = DIMS.map(function(){return 0;}), counts = DIMS.map(function(){return 0;});
+    ITEMS.forEach(function(it, i){
+      if(state.answers[i] != null){ sums[it.dim] += state.answers[i]; counts[it.dim]++; }
+    });
+    return DIMS.map(function(d, i){ return counts[i] ? sums[i]/counts[i] : 0; });
+  }
+
   function render(){
-    qtext.textContent=questions[idx];
-    const n=idx+1;
-    pcount.textContent=String(n).padStart(2,'0')+' / 05';
-    pfill.style.width=(n/questions.length*100)+'%';
-  }
-  function start(){idx=0;score=0;show(elQuiz);render()}
-  function answer(v){
-    score+=v;idx++;
-    if(idx<questions.length){render()}
-    else{finish()}
-  }
-  function finish(){
-    const r=results.find(r=>score>=r.min);
-    document.getElementById('verdict').textContent=r.v;
-    document.getElementById('rbody').textContent=r.b;
-    show(elResult);
+    setProgress();
+    stage.innerHTML = "";
+    var panel = el("div","panel");
+    if(state.screen === "intro") renderIntro(panel);
+    else if(state.screen === "quiz") renderQuiz(panel);
+    else renderResult(panel);
+    stage.appendChild(panel);
   }
 
-  document.getElementById('startBtn').addEventListener('click',start);
-  document.getElementById('againBtn').addEventListener('click',()=>show(elIntro));
-  document.querySelectorAll('#quiz .btn').forEach(b=>
-    b.addEventListener('click',()=>answer(parseInt(b.dataset.v,10))));
+  function renderIntro(p){
+    p.appendChild(el("h1", null, "Wie reif bist&nbsp;du<br>fürs Erwachsensein?"));
+    p.appendChild(el("p","lead",
+      "Kein Wissenstest, keine richtigen Antworten. Es geht nur darum, wie du dich gerade selbst siehst. Fünf Bereiche machen das Erwachsensein aus:"));
+
+    var ul = el("ul","dims");
+    DIMS.forEach(function(d){
+      var li = document.createElement("li");
+      li.appendChild(el("span","term", d.key));
+      li.appendChild(el("span","def", d.def));
+      ul.appendChild(li);
+    });
+    p.appendChild(ul);
+
+    p.appendChild(el("p","frame",
+      "Einen Begriff hörst du hier nicht: <b>volljährig</b>. Das wirst du mit 18, von allein, ganz egal wie reif du bist. Die anderen fünf bekommst du nicht geschenkt. Genau die schauen wir uns an."));
+
+    var nav = el("div","nav");
+    nav.appendChild(el("span"));
+    var start = el("button","btn btn-next","Los geht\u2019s");
+    start.addEventListener("click", function(){ state.screen="quiz"; state.index=0; render(); toTop(); });
+    nav.appendChild(start);
+    p.appendChild(nav);
+  }
+
+  function renderQuiz(p){
+    var i = state.index;
+    p.appendChild(el("div","num", pad(i+1)));
+    p.appendChild(el("p","statement", ITEMS[i].text));
+
+    var next;
+    var scale = el("div","scale");
+    scale.setAttribute("role","group");
+    SCALE.forEach(function(s){
+      var b = el("button","opt");
+      b.type = "button";
+      b.setAttribute("aria-pressed", state.answers[i] === s.v ? "true" : "false");
+      b.appendChild(el("span","dot"));
+      b.appendChild(el("span", null, s.label));
+      b.addEventListener("click", function(){
+        state.answers[i] = s.v;
+        Array.prototype.forEach.call(scale.children, function(c){ c.setAttribute("aria-pressed","false"); });
+        b.setAttribute("aria-pressed","true");
+        if(next) next.disabled = false;
+      });
+      scale.appendChild(b);
+    });
+    p.appendChild(scale);
+
+    var nav = el("div","nav");
+    var back = el("button","btn btn-back","\u2190 Zurück");
+    back.type = "button";
+    if(i === 0) back.hidden = true;
+    back.addEventListener("click", function(){ state.index--; render(); toTop(); });
+
+    var last = i === ITEMS.length - 1;
+    next = el("button","btn btn-next", last ? "Auswertung" : "Weiter \u2192");
+    next.type = "button";
+    next.disabled = state.answers[i] === null;
+    next.addEventListener("click", function(){
+      if(state.answers[i] === null) return;
+      if(last){ state.screen="result"; } else { state.index++; }
+      render(); toTop();
+    });
+
+    nav.appendChild(back);
+    nav.appendChild(next);
+    p.appendChild(nav);
+    p.appendChild(el("p","hint","Deine Wahl bleibt sichtbar. Mit \u201eZurück\u201c kannst du jede Antwort noch ändern."));
+  }
+
+  function buildRadar(avgs){
+    var n = RADAR_ORDER.length, levels = 4;
+    var cx = 180, cy = 150, R = 78, NS = "http://www.w3.org/2000/svg";
+
+    var svg = document.createElementNS(NS,"svg");
+    svg.setAttribute("viewBox","0 0 360 300");
+    svg.setAttribute("class","radar");
+    svg.setAttribute("role","img");
+    svg.setAttribute("aria-label","Dein Profil über die fünf Bereiche als Netzdiagramm.");
+
+    function pt(pos, r){
+      var a = -Math.PI/2 + pos*2*Math.PI/n;
+      return [cx + r*Math.cos(a), cy + r*Math.sin(a)];
+    }
+    function mk(tag, attrs){
+      var e = document.createElementNS(NS, tag);
+      for(var k in attrs) e.setAttribute(k, attrs[k]);
+      return e;
+    }
+
+    for(var l=1; l<=levels; l++){
+      var pts=[];
+      for(var pos=0;pos<n;pos++){ var pp=pt(pos, R*l/levels); pts.push(pp[0].toFixed(1)+","+pp[1].toFixed(1)); }
+      svg.appendChild(mk("polygon",{points:pts.join(" "), "class":"grid"}));
+    }
+
+    for(var pos=0;pos<n;pos++){
+      var o = pt(pos, R);
+      svg.appendChild(mk("line",{x1:cx, y1:cy, x2:o[0].toFixed(1), y2:o[1].toFixed(1), "class":"spoke"}));
+      var lp = pt(pos, R+13);
+      var dx = lp[0]-cx, dy = lp[1]-cy;
+      var anchor = Math.abs(dx) < 6 ? "middle" : (dx > 0 ? "start" : "end");
+      var t = mk("text",{x:lp[0].toFixed(1), y:lp[1].toFixed(1), "class":"axislabel", "text-anchor":anchor});
+      t.setAttribute("dy", dy < -2 ? "0" : (dy > 2 ? "0.72em" : "0.32em"));
+      t.textContent = DIMS[RADAR_ORDER[pos]].key;
+      svg.appendChild(t);
+    }
+
+    var pp=[];
+    for(var pos=0;pos<n;pos++){ var v=avgs[RADAR_ORDER[pos]]; var p=pt(pos, R*(v/levels)); pp.push(p[0].toFixed(1)+","+p[1].toFixed(1)); }
+    svg.appendChild(mk("polygon",{points:pp.join(" "), "class":"profile"}));
+    for(var pos=0;pos<n;pos++){ var v=avgs[RADAR_ORDER[pos]]; var p=pt(pos, R*(v/levels)); svg.appendChild(mk("circle",{cx:p[0].toFixed(1), cy:p[1].toFixed(1), r:"2.6", "class":"vertex"})); }
+
+    var wrap = el("div","radar-wrap");
+    wrap.appendChild(svg);
+    return wrap;
+  }
+
+  function renderResult(p){
+    var sum = state.answers.reduce(function(a,b){ return a + (b||0); }, 0);
+    var band = BANDS.find(function(b){ return sum >= b.min; }) || BANDS[BANDS.length-1];
+    var avgs = dimAverages();
+
+    p.appendChild(el("div","verdict", band.verdict));
+    p.appendChild(buildRadar(avgs));
+    p.appendChild(el("p","result-text", band.text));
+
+    var hiVal = Math.max.apply(null, avgs);
+    var loVal = Math.min.apply(null, avgs);
+    if(hiVal !== loVal){
+      var hi = DIMS[avgs.indexOf(hiVal)].key;
+      var lo = DIMS[avgs.indexOf(loVal)].key;
+      var facets = el("div","facets");
+      var f1 = el("div","facet");
+      f1.appendChild(el("span","k","Am sichersten"));
+      f1.appendChild(el("span","v", hi));
+      var f2 = el("div","facet");
+      f2.appendChild(el("span","k","Noch Luft"));
+      f2.appendChild(el("span","v", lo));
+      facets.appendChild(f1); facets.appendChild(f2);
+      p.appendChild(facets);
+    }
+
+    p.appendChild(el("p","closing",
+      "Volljährig wirst du an einem Datum, ohne etwas dafür zu tun. Selbstständig, urteilsfähig und reif wirst du nur, indem du es übst. Das hier ist eine Momentaufnahme, kein Urteil."));
+
+    var nav = el("div","nav");
+    var again = el("button","btn btn-ghost","Nochmal von vorn");
+    again.type = "button";
+    again.addEventListener("click", function(){
+      state = { screen:"intro", index:0, answers: ITEMS.map(function(){return null;}) };
+      render(); toTop();
+    });
+    nav.appendChild(again);
+    nav.appendChild(el("span"));
+    p.appendChild(nav);
+  }
+
+  function toTop(){
+    try{ window.scrollTo({top:0, behavior:"smooth"}); }catch(e){ window.scrollTo(0,0); }
+  }
+
+  render();
+})();
 </script>
 </body>
 </html>
