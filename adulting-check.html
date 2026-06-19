@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>Erwachsen bist du schon. Und mündig?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EAE0D2;
+    --ink:#262320;
+    --ink-soft:#5E5648;
+    --bronze:#9C6B38;
+    --line:rgba(38,35,32,0.22);
+    --line-soft:rgba(38,35,32,0.13);
+    --hit:rgba(156,107,56,0.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%;color-scheme:light only;background:#EAE0D2}
+  body{
+    background:#EAE0D2;
+    background-image:radial-gradient(125% 85% at 50% 0%, #EFE7DA 0%, #EAE0D2 55%, #E3D8C7 100%);
+    color:#262320;
+    font-family:'Jost',-apple-system,system-ui,sans-serif;
+    font-weight:400;line-height:1.7;font-size:17.5px;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;display:flex;flex-direction:column;
+  }
+  .sheet{
+    position:relative;width:100%;max-width:600px;
+    margin:0 auto;flex:1;
+    padding:56px 30px 64px;
+    display:flex;flex-direction:column;
+  }
+  .tick{position:absolute;width:18px;height:18px}
+  .tick::before,.tick::after{content:"";position:absolute;background:var(--ink);opacity:0.5}
+  .tick::before{width:18px;height:1px;top:0}
+  .tick::after{height:18px;width:1px;left:0}
+  .tl{top:26px;left:24px}
+  .tr{top:26px;right:24px}.tr::before{right:0;left:auto}.tr::after{right:0;left:auto}
+  .bl{bottom:30px;left:24px}.bl::before{bottom:0;top:auto}.bl::after{bottom:0;top:auto}
+  .br{bottom:30px;right:24px}.br::before{bottom:0;top:auto;right:0;left:auto}.br::after{bottom:0;top:auto;right:0;left:auto}
+
+  .eyebrow{font-size:11.5px;letter-spacing:0.32em;text-transform:uppercase;color:var(--ink-soft);font-weight:500}
+  h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:clamp(38px,10.5vw,54px);line-height:1.05;margin:14px 0 20px}
+  .lead{font-size:18px;color:var(--ink);max-width:32em}
+
+  .screen{display:none;flex:1;flex-direction:column}
+  .screen.active{display:flex;animation:rise .5s cubic-bezier(.2,.7,.2,1)}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  .btn{
+    font-family:'Jost',sans-serif;font-size:16.5px;font-weight:500;
+    color:var(--ink);background:transparent;
+    border:1px solid var(--line);border-radius:2px;
+    padding:17px 20px;width:100%;text-align:left;cursor:pointer;
+    transition:background .18s ease,border-color .18s ease,transform .08s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .btn:hover{background:var(--hit);border-color:var(--bronze)}
+  .btn:active{transform:scale(.99)}
+  .btn:focus-visible{outline:2px solid var(--bronze);outline-offset:3px}
+
+  .start{margin-top:auto;align-self:flex-start;width:auto;padding-left:30px;padding-right:30px;border-color:var(--bronze);color:var(--ink)}
+  .start:hover{background:var(--bronze);color:var(--paper)}
+
+  /* Quiz */
+  .progress{display:flex;align-items:center;gap:14px;margin-bottom:auto}
+  .pcount{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:var(--bronze);white-space:nowrap}
+  .pbar{flex:1;height:1px;background:var(--line-soft);position:relative}
+  .pbar span{position:absolute;left:0;top:0;height:1px;background:var(--bronze);transition:width .4s ease}
+  .question{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(26px,7vw,34px);line-height:1.22;margin:34px 0 28px;max-width:16em}
+  .answers{display:flex;flex-direction:column;gap:12px;margin-bottom:auto}
+
+  /* Result */
+  .verdict{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:500;font-size:clamp(24px,6.5vw,30px);line-height:1.32;margin:14px 0 20px;max-width:20em}
+  .rbody{color:var(--ink);max-width:32em;margin-bottom:28px}
+  .again{align-self:flex-start;width:auto;padding-left:26px;padding-right:26px}
+
+  footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-soft)}
+
+  @media (max-width:420px){.sheet{padding:46px 22px 54px}}
+  @media (prefers-reduced-motion:reduce){.screen.active{animation:none}.btn,.pbar span{transition:none}}
+</style>
+</head>
+<body>
+  <main class="sheet">
+    <span class="tick tl"></span><span class="tick tr"></span>
+    <span class="tick bl"></span><span class="tick br"></span>
+
+    <!-- Intro -->
+    <section id="intro" class="screen active">
+      <p class="eyebrow">Ganz normales Alltagswissen</p>
+      <h1>Erwachsen bist du<br>schon. Und mündig?</h1>
+      <p class="lead">Fünf ehrliche Fragen. Keine Noten, keine Falle. Nur ein kurzer Blick darauf, wo du im Alltag schon sicher stehst und wo dir dieses Heft den Rücken freihält.</p>
+      <button class="btn start" id="startBtn">Check starten</button>
+    </section>
+
+    <!-- Quiz -->
+    <section id="quiz" class="screen">
+      <div class="progress">
+        <span class="pcount" id="pcount">01 / 05</span>
+        <span class="pbar"><span id="pfill" style="width:20%"></span></span>
+      </div>
+      <h2 class="question" id="qtext"></h2>
+      <div class="answers">
+        <button class="btn" data-v="2">Hab ich im Griff</button>
+        <button class="btn" data-v="1">So halb</button>
+        <button class="btn" data-v="0">Ehrlich, nein</button>
+      </div>
+    </section>
+
+    <!-- Result -->
+    <section id="result" class="screen">
+      <p class="eyebrow">Dein Ergebnis</p>
+      <p class="verdict" id="verdict"></p>
+      <p class="rbody" id="rbody"></p>
+      <button class="btn again" id="againBtn">Nochmal</button>
+    </section>
+
+    <footer>
+      <span>DudeWithDog&nbsp;Education</span>
+      <span>Adulting-Check</span>
+    </footer>
+  </main>
+
+<script>
+  const questions = [
+    "Weisst du am Monatsende, wohin dein Geld geflossen ist?",
+    "Könntest du in einem Satz sagen, wofür du jede deiner Versicherungen zahlst?",
+    "Wenn ein Amt morgen ein Dokument will, findest du es ohne Panik?",
+    "Liest du Verträge, bevor du unterschreibst?",
+    "Wenn etwas schiefgeht, eine Frist, ein Schaden, eine Rechnung, weisst du, wo du anfängst?"
+  ];
+  const results = [
+    { min:8, v:"Du stehst sicherer da als die meisten.",
+      b:"Erwachsen wird man von allein, mündig nicht, und du hast dir davon schon einiges erarbeitet. Das Heft schliesst die letzten Lücken und gibt dir die Sicherheit, dass du nichts übersiehst." },
+    { min:4, v:"Ein solides Fundament, mit ein paar offenen Stellen.",
+      b:"Das ist völlig normal, dir hat es ja auch niemand beigebracht. Genau diese Lücken nimmt sich das Heft vor, ruhig und der Reihe nach, in deinem Tempo." },
+    { min:0, v:"Ehrlich beantwortet, und das zählt mehr, als es jetzt scheint.",
+      b:"Niemand kommt fertig auf die Welt, und niemand hat dir das je gezeigt. Das Heft fängt genau hier an und nimmt dich Schritt für Schritt mit. Du musst nur anfangen." }
+  ];
+
+  const elIntro=document.getElementById('intro');
+  const elQuiz=document.getElementById('quiz');
+  const elResult=document.getElementById('result');
+  const qtext=document.getElementById('qtext');
+  const pcount=document.getElementById('pcount');
+  const pfill=document.getElementById('pfill');
+  let idx=0, score=0;
+
+  function show(el){[elIntro,elQuiz,elResult].forEach(s=>s.classList.remove('active'));el.classList.add('active')}
+  function render(){
+    qtext.textContent=questions[idx];
+    const n=idx+1;
+    pcount.textContent=String(n).padStart(2,'0')+' / 05';
+    pfill.style.width=(n/questions.length*100)+'%';
+  }
+  function start(){idx=0;score=0;show(elQuiz);render()}
+  function answer(v){
+    score+=v;idx++;
+    if(idx<questions.length){render()}
+    else{finish()}
+  }
+  function finish(){
+    const r=results.find(r=>score>=r.min);
+    document.getElementById('verdict').textContent=r.v;
+    document.getElementById('rbody').textContent=r.b;
+    show(elResult);
+  }
+
+  document.getElementById('startBtn').addEventListener('click',start);
+  document.getElementById('againBtn').addEventListener('click',()=>show(elIntro));
+  document.querySelectorAll('#quiz .btn').forEach(b=>
+    b.addEventListener('click',()=>answer(parseInt(b.dataset.v,10))));
+</script>
+</body>
+</html>
